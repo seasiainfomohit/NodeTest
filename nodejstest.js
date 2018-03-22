@@ -28,23 +28,23 @@ Sort the array and write it to another file without keeping the whole array into
 */
 export async function randomnumber(event, context, callback) {
     //generate random numbers
-    var arr = [];
+    var printCnt = 0;
     // write data to the file
     fs.writeFile('input_random_number.txt', '', (err) => {
         if (err) throw err;
     });
-    while (arr.length < 99) {
-        var randomnumber = Math.floor(Math.random() * 99) + 1;
-        if (arr.indexOf(randomnumber) > -1) continue;
-        arr[arr.length] = randomnumber + '\n';
-        fs.appendFileSync('input_random_number.txt', randomnumber + '\n');
+    while(printCnt < 10000000){
+        var randomnumber = Math.floor(Math.random()*99) + 1;
+        fs.appendFileSync('input_random_number.txt', randomnumber+'\n');
+        printCnt++;
     }
 
     // read file
-    fs.readFile('../../input_random_number.txt', 'utf8', function(err, data) {
+
+    fs.readFile('input_random_number.txt', 'utf8', function(err, data) {
         if (err) throw err;
-        var outputData = {};
-        var myLines = fs.readFileSync('../../input_random_number.txt').toString().split('\n').forEach(function(data) {
+        var outputData = [];
+        var myLines = fs.readFileSync('input_random_number.txt').toString().split('\n').forEach(function (data) {
             outputData.push(data);
         });
         // write outputdata to the file
@@ -54,6 +54,7 @@ export async function randomnumber(event, context, callback) {
     });
 
 }
+
 
 //Exercise 3
 /**
@@ -71,11 +72,11 @@ and so on.
 
 */
 export async function sprintcontroller(event, context, callback) {
-    fs.readFile('../../development.log', 'utf8', function(err, data) {
+    fs.readFile('development.log', 'utf8', function(err, data) {
         if (err) throw err;
         var showCounter = 0;
         var indexCounter = 0;
-        var myLines = fs.readFileSync('../../development.log').toString().split('\n').forEach(function(line) {
+        var myLines = fs.readFileSync('development.log').toString().split('\n').forEach(function(line) {
             if (line.indexOf('SprintsController#show') >= 0) {
                 showCounter += 1;
             }
